@@ -1,3 +1,4 @@
+import 'package:firebase_app/auth/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,16 +24,12 @@ class _HomeViewState extends State<HomeView> {
           children: [
             Text(user.email ?? ""),
             ElevatedButton.icon(
-                onPressed: logout,
+                onPressed: () => FirebaseService.logout(),
                 icon: Icon(Icons.logout),
                 label: Text("logout"))
           ],
         ),
       ),
     );
-  }
-
-  Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
   }
 }

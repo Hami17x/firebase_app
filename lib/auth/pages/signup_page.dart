@@ -1,3 +1,4 @@
+import 'package:firebase_app/auth/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,11 @@ class _SignupViewState extends State<SignupView> {
               decoration: InputDecoration(labelText: "password"),
             ),
             ElevatedButton.icon(
-                onPressed: signUp,
-                icon: Icon(
+                onPressed: () {
+                  FirebaseService.signUp(
+                      context, _ec.text.trim(), _pc.text.trim());
+                },
+                icon: const Icon(
                   Icons.login,
                   size: 25,
                 ),
@@ -45,16 +49,5 @@ class _SignupViewState extends State<SignupView> {
         ),
       ),
     );
-  }
-
-  Future<void> signUp() async {
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: _ec.text.trim(), password: _pc.text.trim())
-          .then((value) => Navigator.pop(context));
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
   }
 }

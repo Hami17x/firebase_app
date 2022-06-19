@@ -1,8 +1,9 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_app/auth/forgot_password_page.dart';
-import 'package:firebase_app/auth/signup_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_app/auth/pages/forgot_password_page.dart';
+import 'package:firebase_app/auth/pages/signup_page.dart';
 import 'package:flutter/material.dart';
+
+import '../services/firebase_service.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -55,7 +56,10 @@ class _LoginViewState extends State<LoginView> {
                     : null,
               ),
               ElevatedButton.icon(
-                  onPressed: signin,
+                  onPressed: () {
+                    FirebaseService.signin(
+                        formKey, _ec.text.trim(), _pc.text.trim());
+                  },
                   icon: const Icon(
                     Icons.login,
                     size: 25,
@@ -80,24 +84,5 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
-  }
-
-  Future<void> signin() async {
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) return;
-    /*
-    showDialog(
-        context: context,
-        builder: (context) => Center(
-              child: CircularProgressIndicator(),
-            ));
-            */
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _ec.text.trim(), password: _pc.text.trim());
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
-    // navigatorKey.currentState!.popUntil((route) => true);
   }
 }

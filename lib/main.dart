@@ -1,6 +1,5 @@
-import 'package:firebase_app/auth/login_view.dart';
-import 'package:firebase_app/auth/verified_email_page.dart';
-import 'package:firebase_app/home.dart';
+import 'package:firebase_app/auth/pages/login_page.dart';
+import 'package:firebase_app/auth/pages/verified_email_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +29,11 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
-              return Center(child: Text("something wrong"));
+              return const Center(child: Text("something wrong"));
             } else if (snapshot.hasData) {
               return VerifyEmail();
             } else {
